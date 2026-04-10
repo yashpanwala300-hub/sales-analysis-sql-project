@@ -1,0 +1,143 @@
+##Business Analysis Queries
+
+##These are real company analytics questions.
+
+#1 Top 10 Selling Products.
+
+SELECT 
+    p.product_name,
+    SUM(oi.quantity) AS total_sold
+FROM order_items oi
+JOIN products p
+ON oi.product_id = p.product_id
+GROUP BY p.product_name
+ORDER BY total_sold DESC
+LIMIT 10;
+
+#2 Revenue by Product Category
+SELECT 
+    p.category,
+    SUM(oi.quantity * oi.price) AS revenue
+FROM order_items oi
+JOIN products p
+ON oi.product_id = p.product_id
+GROUP BY p.category
+ORDER BY revenue DESC;
+
+#3 Monthly Revenue
+SELECT 
+    DATE_FORMAT(order_date,'%Y-%m') AS month,
+    SUM(total_amount) AS revenue
+FROM orders
+WHERE status IN ('Completed','Delivered')
+GROUP BY month
+ORDER BY month;
+
+#4 Top Customers by Revenue
+SELECT 
+    c.customer_name,
+    SUM(oi.quantity * oi.price) AS total_spent
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+JOIN order_items oi 
+ON o.order_id = oi.order_id
+GROUP BY c.customer_name
+ORDER BY total_spent DESC
+LIMIT 10;
+
+#5 City With Highest Sales
+SELECT 
+    c.city,
+    SUM(oi.quantity * oi.price) AS revenue
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+JOIN order_items oi 
+ON o.order_id = oi.order_id
+GROUP BY c.city
+ORDER BY revenue DESC;
+
+#6 Inventory Stock Levels
+SELECT 
+    p.product_name,
+    i.stock_quantity,
+    i.warehouse_location
+FROM inventory i
+JOIN products p
+ON i.product_id = p.product_id
+ORDER BY stock_quantity ASC;
+
+#7 Products Close to Expiry
+SELECT 
+    p.product_name,
+    pb.expiry_date,
+    DATEDIFF(pb.expiry_date, CURDATE()) AS days_left
+FROM production_batches pb
+JOIN products p
+ON pb.product_id = p.product_id
+WHERE pb.expiry_date < DATE_ADD(CURDATE(), INTERVAL 30 DAY);
+
+#8 Average Order Value
+SELECT 
+    AVG(total_amount) AS avg_order_value
+FROM orders
+WHERE status IN ('Completed','Delivered');
+
+#9 Customer Purchase Frequency
+SELECT 
+    c.customer_name,
+    COUNT(o.order_id) AS total_orders
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+ORDER BY total_orders DESC;
+
+#10 Advanced SQL — MoM Growth (your query)
+WITH monthly_revenue AS (
+    SELECT 
+        DATE_FORMAT(o.order_date,'%Y-%m') AS month,
+        SUM(oi.quantity * oi.price) AS total_revenue
+    FROM orders o
+    JOIN order_items oi
+    ON o.order_id = oi.order_id
+    WHERE o.status IN ('Completed','Delivered')
+    GROUP BY DATE_FORMAT(o.order_date,'%Y-%m')
+)
+
+SELECT 
+    month,
+    total_revenue,
+    LAG(total_revenue) OVER (ORDER BY month) AS last_month_revenue,
+    
+    ROUND(
+        (total_revenue - LAG(total_revenue) OVER (ORDER BY month))
+        / LAG(total_revenue) OVER (ORDER BY month) * 100
+    ,2) AS mom_growth
+
+FROM monthly_revenue
+ORDER BY month;
+
+#11 Window Function Example (Ranking Products)
+SELECT 
+    p.product_name,
+    SUM(oi.quantity) AS total_sales,
+    RANK() OVER (ORDER BY SUM(oi.quantity) DESC) AS sales_rank
+FROM order_items oi
+JOIN products p
+ON oi.product_id = p.product_id
+GROUP BY p.product_name;
+
+#12 Customer Lifetime Value (Important Interview Question)
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    SUM(oi.quantity * oi.price) AS lifetime_value
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+JOIN order_items oi 
+ON o.order_id = oi.order_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY lifetime_value DESC;
