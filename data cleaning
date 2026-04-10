@@ -1,0 +1,99 @@
+
+##Check Missing Values
+
+##Suppliers
+SELECT *
+FROM suppliers
+WHERE supplier_name IS NULL
+   OR email IS NULL
+   OR phone IS NULL;
+   
+   ##Products
+SELECT *
+FROM products
+WHERE product_name IS NULL
+   OR price IS NULL;
+   
+  ## Orders
+SELECT *
+FROM orders
+WHERE order_date IS NULL;
+
+##Remove Duplicate Customers
+SELECT email, COUNT(*)
+FROM customers
+GROUP BY email
+HAVING COUNT(*) > 1;
+
+SET SQL_SAFE_UPDATES = 0;
+
+##If duplicates exist:
+
+DELETE c1
+FROM customers c1
+JOIN customers c2
+ON c1.email = c2.email
+AND c1.customer_id > c2.customer_id;
+
+##Fix Invalid Prices
+
+##Check negative prices.
+
+SELECT *
+FROM products
+WHERE price < 0;
+
+##Fix them:
+
+UPDATE products
+SET price = ABS(price)
+WHERE price < 0;
+
+##Check Invalid Quantities
+SELECT *
+FROM order_items
+WHERE quantity <= 0;
+
+##Fix:
+
+DELETE FROM order_items
+WHERE quantity <= 0;
+
+##Check Expired Production Batches
+SELECT *
+FROM production_batches
+WHERE expiry_date < production_date;
+
+##Fix:
+
+DELETE FROM production_batches
+WHERE expiry_date < production_date;
+
+##Check Inventory Issues
+SELECT *
+FROM inventory
+WHERE stock_quantity < 0;
+
+##Fix:
+
+UPDATE inventory
+SET stock_quantity = 0
+WHERE stock_quantity < 0;
+
+##Data Validation
+
+##Check if orders match order items.
+
+SELECT o.order_id
+FROM orders o
+LEFT JOIN order_items oi
+ON o.order_id = oi.order_id
+WHERE oi.order_id IS NULL;
+
+#Remove empty orders:
+
+DELETE FROM orders
+WHERE order_id NOT IN (
+    SELECT DISTINCT order_id
+    FROM order_items
+);
