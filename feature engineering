@@ -1,0 +1,21 @@
+##Feature Engineering 
+#Add useful metrics.
+
+#Order Revenue
+SELECT 
+    order_id,
+    SUM(quantity * price) AS order_revenue
+FROM order_items
+GROUP BY order_id;
+
+##Customer Total Spending
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    SUM(oi.quantity * oi.price) AS total_spent
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+JOIN order_items oi
+ON o.order_id = oi.order_id
+GROUP BY c.customer_id, c.customer_name;
