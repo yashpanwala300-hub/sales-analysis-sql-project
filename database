@@ -1,0 +1,151 @@
+#suppliers (15 rows)
+INSERT INTO suppliers (supplier_name, contact_person, email, phone, city) VALUES
+('GreenFarm Pvt Ltd','Ramesh Patel','greenfarm1@gmail.com','9876543210','Ahmedabad'),
+('Organic Valley','Suresh Shah','organic2@gmail.com','9876543211','Surat'),
+('Fresh Agro Co','Anil Mehta','fresh3@gmail.com','9876543212','Mumbai'),
+('Natural Harvest','Vikram Singh','natural4@gmail.com','9876543213','Delhi'),
+('FarmToFork','Manoj Kumar','farm5@gmail.com','9876543214','Pune'),
+('AgroHub','Rahul Verma','agro6@gmail.com','9876543215','Indore'),
+('Fresh Roots','Kiran Joshi','roots7@gmail.com','9876543216','Jaipur'),
+('Eco Supplies','Amit Roy','eco8@gmail.com','9876543217','Bangalore'),
+('NatureGrow','Deepak Yadav','grow9@gmail.com','9876543218','Hyderabad'),
+('Healthy Farms','Ravi Nair','healthy10@gmail.com','9876543219','Chennai'),
+('Prime Agro','Harsh Desai','prime11@gmail.com','9876543220','Rajkot'),
+('Sunrise Foods','Rohit Jain','sun12@gmail.com','9876543221','Nagpur'),
+('DailyFresh','Neeraj Gupta','daily13@gmail.com','9876543222','Lucknow'),
+('Urban Agro','Prakash Rao','urban14@gmail.com','9876543223','Bhopal'),
+('BioFoods Ltd','Mahesh Iyer','bio15@gmail.com','9876543224','Kolkata');
+
+#raw_materials (20 rows)
+INSERT INTO raw_materials (material_name, unit, cost_per_unit, supplier_id) VALUES
+('Wheat Flour','kg',25,1),
+('Milk','liter',40,2),
+('Sugar','kg',45,3),
+('Salt','kg',20,4),
+('Butter','kg',450,5),
+('Tomatoes','kg',30,6),
+('Potatoes','kg',22,7),
+('Rice','kg',50,8),
+('Almonds','kg',700,9),
+('Cashews','kg',750,10),
+('Cocoa Powder','kg',300,11),
+('Corn','kg',35,12),
+('Oats','kg',80,13),
+('Honey','kg',250,14),
+('Paneer Base','kg',200,15),
+('Cheese Culture','pack',500,1),
+('Coffee Beans','kg',600,2),
+('Orange Pulp','kg',90,3),
+('Peas','kg',40,4),
+('Protein Mix','kg',1200,5);
+
+#products (30 rows)
+
+#(Already structured for analysis categories)
+
+INSERT INTO products (product_name, category, price, shelf_life_days) VALUES
+('Whole Wheat Bread','Bakery',40,5),
+('Multigrain Bread','Bakery',50,5),
+('Butter Croissant','Bakery',35,3),
+('Paneer','Dairy',280,7),
+('Cheddar Cheese','Dairy',450,30),
+('Milk 1L','Dairy',60,3),
+('Tomato Ketchup','Condiments',120,180),
+('Green Chutney','Condiments',80,15),
+('Potato Chips','Snacks',20,120),
+('Nachos','Snacks',60,150),
+('Oats','Cereals',150,365),
+('Cornflakes','Cereals',180,365),
+('Brown Rice','Grains',90,365),
+('Basmati Rice','Grains',120,365),
+('Whole Wheat Flour','Grains',50,180),
+('Almonds Pack','Dry Fruits',750,365),
+('Cashews Pack','Dry Fruits',800,365),
+('Raisins Pack','Dry Fruits',300,365),
+('Apple Juice','Beverages',110,90),
+('Orange Juice','Beverages',100,90),
+('Cold Coffee','Beverages',150,7),
+('Energy Bar','Health',45,180),
+('Protein Powder','Health',2200,365),
+('Tofu','Dairy',200,5),
+('Yogurt','Dairy',40,7),
+('Frozen Peas','Frozen',120,180),
+('Frozen Corn','Frozen',130,180),
+('Ice Cream','Frozen',250,60),
+('Dark Chocolate','Snacks',150,180),
+('Honey Bottle','Natural',350,365);
+
+#distributors (10 rows)
+INSERT INTO distributors (distributor_name, city, phone, email) VALUES
+('North Distributors','Delhi','9111111111','north@gmail.com'),
+('West Supply Chain','Mumbai','9222222222','west@gmail.com'),
+('South Logistics','Chennai','9333333333','south@gmail.com'),
+('East Retailers','Kolkata','9444444444','east@gmail.com'),
+('Central Wholesale','Nagpur','9555555555','central@gmail.com'),
+('Urban Distributors','Ahmedabad','9666666666','urban@gmail.com'),
+('Metro Supply','Pune','9777777777','metro@gmail.com'),
+('City Retail Hub','Bangalore','9888888888','city@gmail.com'),
+('Fresh Chain','Hyderabad','9999999999','fresh@gmail.com'),
+('Daily Needs Supply','Jaipur','9000000000','daily@gmail.com');
+
+#customers (100 realistic pattern)
+
+#Example first 20 (same pattern continue till 100):
+
+INSERT INTO customers (customer_name, email, phone, city) VALUES
+('Amit Sharma','amit1@gmail.com','9000000001','Mumbai'),
+('Priya Patel','priya2@gmail.com','9000000002','Ahmedabad'),
+('Rahul Mehta','rahul3@gmail.com','9000000003','Delhi'),
+('Sneha Verma','sneha4@gmail.com','9000000004','Pune'),
+('Rohit Shah','rohit5@gmail.com','9000000005','Surat'),
+('Neha Joshi','neha6@gmail.com','9000000006','Jaipur'),
+('Vikas Yadav','vikas7@gmail.com','9000000007','Lucknow'),
+('Ananya Roy','ananya8@gmail.com','9000000008','Kolkata'),
+('Manish Rao','manish9@gmail.com','9000000009','Hyderabad'),
+('Pooja Nair','pooja10@gmail.com','9000000010','Chennai');
+
+
+# Continue same format till 100.
+
+#production_batches
+INSERT INTO production_batches (product_id, production_date, quantity_produced, expiry_date) VALUES
+(1,'2025-01-01',1000,'2025-01-06'),
+(4,'2025-01-05',500,'2025-01-12'),
+(10,'2025-02-10',800,'2025-07-10'),
+(23,'2025-03-01',300,'2026-03-01'),
+(28,'2025-04-01',400,'2025-06-01');
+
+#orders (sample realistic)
+INSERT INTO orders (customer_id, order_date, status, total_amount) VALUES
+(1,'2025-01-15','Completed',450),
+(2,'2025-02-10','Shipped',780),
+(3,'2025-03-05','Pending',1200),
+(4,'2025-04-12','Delivered',300),
+(5,'2025-05-22','Cancelled',150);
+
+
+#(Repeat to reach 500 with varied dates)
+
+#order_items
+INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
+(1,1,5,40),
+(1,4,1,280),
+(2,10,3,60),
+(3,23,1,2200),
+(4,9,10,20);
+
+#payments
+INSERT INTO payments (order_id, payment_date, payment_method, amount_paid) VALUES
+(1,'2025-01-15','UPI',450),
+(2,'2025-02-10','Credit Card',780),
+(4,'2025-04-12','Cash',300);
+
+#inventory
+INSERT INTO inventory (product_id, stock_quantity, warehouse_location) VALUES
+(1,500,'Warehouse A'),
+(2,300,'Warehouse A'),
+(3,200,'Warehouse B'),
+(4,150,'Warehouse C'),
+(5,100,'Warehouse C'),
+(10,400,'Warehouse B');
+
